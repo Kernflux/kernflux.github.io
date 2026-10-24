@@ -1,8 +1,12 @@
 name: deploy
 # Builds the VitePress site and publishes it to https://kernflux.github.io/.
+# The reference docs come from Kernflux/opendsec (scripts/sync-docs.mjs), so
+# the site also rebuilds daily to pick up their changes.
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 2 * * *"
   workflow_dispatch:
 
 permissions:
@@ -19,11 +23,18 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # page "last updated" times come from git history
+      - uses: actions/checkout@v4
+        with:
+          repository: Kernflux/opendsec
+          path: _opendsec
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run sync
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

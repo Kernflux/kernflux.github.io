@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /guide/quickstart
+      link: /docs/quickstart
     - theme: alt
       text: 在 GitHub 上查看
       link: https://github.com/Kernflux/opendsec
@@ -36,7 +36,7 @@ features:
 
 ## 实测数据
 
-在 2 × AMD EPYC 9Y24（384 线程）、1.5 TB 内存、NVMe RAID0、Ubuntu 24.04 的裸金属机上测得，不是论文中的数据。测量方法见仓库里的 [docs/SPEC.md](https://github.com/Kernflux/opendsec/blob/main/docs/SPEC.md)。
+在 2 × AMD EPYC 9Y24（384 线程）、1.5 TB 内存、NVMe RAID0、Ubuntu 24.04 的裸金属机上测得，不是论文中的数据。测量方法见仓库里的 [docs/SPEC.md](/docs/spec)。
 
 | 参数 | 典型值 |
 |---|---|

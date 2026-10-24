@@ -1,3 +1,19 @@
 node_modules/
 .vitepress/dist/
 .vitepress/cache/
+# synced from Kernflux/opendsec by scripts/sync-docs.mjs
+_opendsec/
+docs/user-guide.md
+docs/operations.md
+docs/slo.md
+docs/components.md
+docs/spec.md
+en/docs/e2b.md
+en/docs/versioning.md
+docs/e2b.md
+docs/versioning.md
+en/docs/user-guide.md
+en/docs/operations.md
+en/docs/slo.md
+en/docs/components.md
+en/docs/spec.md

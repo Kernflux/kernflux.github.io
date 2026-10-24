@@ -3,11 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "sync": "node scripts/sync-docs.mjs",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
   "devDependencies": {
-    "vitepress": "1.6.3"
+    "vitepress": "1.6.3",
+    "feed": "4.2.2"
   }
 }

@@ -35,7 +35,7 @@ deploy/quickstart.sh
 - `--no-microvm`：只装容器。
 - `--kernel FILE`：用现成的 guest 内核，不下载。
 - `--build-kernel`：自己编译 guest 内核。
-- 机器不能访问外网时，用[离线安装包](/guide/deploy#离线环境)。
+- 机器不能访问外网时，用[离线安装包](/docs/deploy#离线环境)。
 :::
 
 ## 3. 创建 sandbox
@@ -110,6 +110,6 @@ deploy/quickstart.sh --uninstall
 
 ## 下一步
 
-- 多台机器组成集群、离线安装：见[部署方式](/guide/deploy)。
-- 从 E2B 迁移：见 [docs/E2B.md](https://github.com/Kernflux/opendsec/blob/main/docs/E2B.md)。
+- 多台机器组成集群、离线安装：见[部署方式](/docs/deploy)。
+- 从 E2B 迁移：见 [docs/E2B.md](/en/docs/e2b)。
 - 全部命令：`opendsecctl --help`。

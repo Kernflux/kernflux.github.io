@@ -9,7 +9,7 @@
 
 ## 单机
 
-一条命令装好全部组件，见[快速开始](/guide/quickstart)。
+一条命令装好全部组件，见[快速开始](/docs/quickstart)。
 
 ## 多机集群
 
@@ -18,7 +18,7 @@
 - 前面放一个四层负载均衡，健康检查用 `/readyz`。
 - 装好后交给 fleet 管理：分批滚动升级、改配置、加机器、维护，失败的机器自动退回原版本。
 
-完整步骤见仓库 README 的「Deploy a cluster」一节和[运维手册](https://github.com/Kernflux/opendsec/blob/main/docs/OPERATIONS.md)。
+完整步骤见仓库 README 的「Deploy a cluster」一节和[运维手册](/docs/operations)。
 
 ::: warning NFS 版本
 NFS 用 `vers=4.2`。4.1 不支持稀疏文件，从内存快照跨节点创建 sandbox 会慢一倍以上。`opendsecctl image store-check` 会检查这一项。

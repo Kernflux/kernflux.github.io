@@ -9,7 +9,7 @@
 
 ## Single machine
 
-One command installs everything; see [Get started](/en/guide/quickstart).
+One command installs everything; see [Get started](/en/docs/quickstart).
 
 ## Cluster
 
@@ -18,7 +18,7 @@ One command installs everything; see [Get started](/en/guide/quickstart).
 - An L4 load balancer in front, health-checking `/readyz`.
 - Once installed, fleet takes over: staged rollouts, config changes, new nodes and maintenance, with failed nodes rolled back automatically.
 
-The full steps are in the README's "Deploy a cluster" section and in [docs/OPERATIONS.md](https://github.com/Kernflux/opendsec/blob/main/docs/OPERATIONS.md).
+The full steps are in the README's "Deploy a cluster" section and in [docs/OPERATIONS.md](/docs/operations).
 
 ::: warning NFS version
 Mount NFS with `vers=4.2`. Version 4.1 cannot find the holes in sparse files, which makes creating from a memory snapshot on another node more than twice as slow. `opendsecctl image store-check` checks for this.

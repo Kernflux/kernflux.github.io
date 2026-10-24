@@ -35,7 +35,7 @@ The script:
 - `--no-microvm`: containers only.
 - `--kernel FILE`: use a guest kernel you already have instead of downloading it.
 - `--build-kernel`: build the guest kernel yourself.
-- No internet access on the machine? Use the [offline bundle](/en/guide/deploy#air-gapped).
+- No internet access on the machine? Use the [offline bundle](/en/docs/deploy#air-gapped).
 :::
 
 ## 3. Create a sandbox
@@ -110,6 +110,6 @@ deploy/quickstart.sh --uninstall
 
 ## Next
 
-- A multi-node cluster or an offline install: see [Deployment](/en/guide/deploy).
-- Moving from E2B: see [docs/E2B.md](https://github.com/Kernflux/opendsec/blob/main/docs/E2B.md).
+- A multi-node cluster or an offline install: see [Deployment](/en/docs/deploy).
+- Moving from E2B: see [docs/E2B.md](/en/docs/e2b).
 - Every command: `opendsecctl --help`.

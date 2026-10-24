@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: Get started
-      link: /en/guide/quickstart
+      link: /en/docs/quickstart
     - theme: alt
       text: View on GitHub
       link: https://github.com/Kernflux/opendsec
@@ -36,7 +36,7 @@ features:
 
 ## Measured
 
-On bare metal with 2 × AMD EPYC 9Y24 (384 threads), 1.5 TB RAM, NVMe RAID0 and Ubuntu 24.04. These are our own measurements, not figures from the paper; how each was taken is in [docs/SPEC.md](https://github.com/Kernflux/opendsec/blob/main/docs/SPEC.md).
+On bare metal with 2 × AMD EPYC 9Y24 (384 threads), 1.5 TB RAM, NVMe RAID0 and Ubuntu 24.04. These are our own measurements, not figures from the paper; how each was taken is in [docs/SPEC.md](/docs/spec).
 
 | Parameter | Typical |
 |---|---|

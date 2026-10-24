@@ -12,7 +12,7 @@ Fully verified on fresh Ubuntu 24.04. It needs x86_64, kernel 5.15 or newer, cgr
 
 OpenDsec serves an E2B-compatible API. Code written for the E2B SDK runs once `E2B_API_URL`, `E2B_SANDBOX_URL` and `E2B_API_KEY` point at your gateway, and the sandboxes run on your own machines. E2B's Python SDK (sync and async) and JS/TS SDK acceptance checks all pass.
 
-Directory watching, signed file URLs and template builds are not supported yet. The differences and how to migrate are in [docs/E2B.md](https://github.com/Kernflux/opendsec/blob/main/docs/E2B.md).
+Directory watching, signed file URLs and template builds are not supported yet. The differences and how to migrate are in [docs/E2B.md](/en/docs/e2b).
 
 ## How does it relate to DeepSeek?
 
@@ -20,11 +20,11 @@ It doesn't. OpenDsec is an independent implementation of the DSec paper that Dee
 
 ## How do I install without internet access?
 
-Use the offline bundle; see [Deployment](/en/guide/deploy#air-gapped).
+Use the offline bundle; see [Deployment](/en/docs/deploy#air-gapped).
 
 ## Is it ready for production?
 
-It is at 0.x, and interfaces may change before 1.0; see [VERSIONING.md](https://github.com/Kernflux/opendsec/blob/main/docs/VERSIONING.md). Rolling upgrades, a hard reset of a control node and an IAM leader change have each been run under load with no failed calls. For support or a commercial license, see [License](/en/guide/license).
+It is at 0.x, and interfaces may change before 1.0; see [VERSIONING.md](/en/docs/versioning). Rolling upgrades, a hard reset of a control node and an IAM leader change have each been run under load with no failed calls. For support or a commercial license, see [License](/en/docs/license).
 
 ## Does it support GPUs?
 

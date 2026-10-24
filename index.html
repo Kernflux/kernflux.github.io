@@ -10,6 +10,17 @@
 <meta property="og:url" content="https://kernflux.github.io/">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>OpenDsec</title>
+<script>
+(function () {
+  var r = document.documentElement, l = null, t = null;
+  var h = location.hash.slice(1);
+  try { l = localStorage.getItem('opendsec-lang'); t = localStorage.getItem('opendsec-theme'); } catch (e) {}
+  if (h === 'en' || h === 'zh') l = h;
+  if (l !== 'en' && l !== 'zh') l = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  r.setAttribute('data-lang', l); r.lang = l === 'zh' ? 'zh-CN' : 'en';
+  if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
+})();
+</script>
 <meta name="description" content="OpenDsec: open-source sandbox infrastructure for agentic RL training. Firecracker microVMs, containers, fork with memory, E2B-compatible API.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,6 +237,63 @@ pre.code .k { color: var(--accent); }
 .mail code { font-size: 0.9375rem; background: var(--code-bg); padding: 6px 10px; border-radius: 4px; user-select: all; }
 .mail button { font: 500 0.75rem var(--font-mono); background: transparent; color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; padding: 6px 10px; cursor: pointer; }
 
+/* navigation aids */
+.skip { position: absolute; left: 8px; top: -48px; z-index: 20; background: var(--accent); color: var(--accent-ink); padding: 8px 12px; border-radius: 4px; text-decoration: none; }
+.skip:focus { top: calc(8px + env(safe-area-inset-top, 0px)); }
+main [id] { scroll-margin-top: 84px; }
+nav.links a[aria-current="true"] { color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+.icon-btn { display: inline-grid; place-items: center; width: 30px; height: 28px; border: 1px solid var(--rule); border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; }
+.icon-btn svg { width: 16px; height: 16px; }
+.icon-btn .moon { display: none; }
+:root[data-theme="dark"] .icon-btn .sun { display: none; }
+:root[data-theme="dark"] .icon-btn .moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-btn .sun { display: none; }
+  :root:not([data-theme="light"]) .icon-btn .moon { display: block; }
+}
+.gh { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border: 1px solid var(--ink); border-radius: 4px; color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.875rem; }
+.gh svg { width: 15px; height: 15px; fill: currentColor; }
+.gh:hover { background: var(--ink); color: var(--paper); }
+
+/* code blocks with a copy button */
+.cb { position: relative; }
+.cb pre { padding-right: 76px; }
+.cb .copy { top: 6px; right: 6px; }
+.copy[data-done] { color: var(--ok); border-color: currentColor; }
+
+/* FAQ */
+.faq { border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
+.faq details { border-bottom: 1px solid var(--rule); }
+.faq details:last-child { border-bottom: 0; }
+.faq summary { cursor: pointer; padding: 16px 48px 16px 20px; font-weight: 600; list-style: none; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 20px; top: 13px; font: 500 1.25rem var(--font-mono); color: var(--muted); }
+.faq details[open] summary::after { content: "−"; }
+.faq summary:hover { color: var(--accent); }
+.faq .a { padding: 0 20px 18px; color: var(--muted); max-width: var(--measure); display: grid; gap: 8px; }
+.hint { display: none; margin-top: 8px; font-size: var(--step--1); color: var(--muted); }
+
+@media (max-width: 720px) {
+  header.top .wrap { gap: 10px 12px; padding-block: 10px 0; }
+  nav.links { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 18px; padding-bottom: 10px; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  nav.links::-webkit-scrollbar { display: none; }
+  nav.links a { white-space: nowrap; padding-block: 4px; }
+  nav.links a.gh-nav { display: none; }
+  main [id] { scroll-margin-top: 108px; }
+  .hint { display: block; }
+  /* the datasheet becomes stacked rows */
+  .sheet table { min-width: 0; }
+  .sheet thead { display: none; }
+  .sheet tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 14px; border-bottom: 1px solid var(--rule); }
+  .sheet tbody tr:last-child { border-bottom: 0; }
+  .sheet tbody td { padding: 0; border: 0; }
+  .sheet td.c { grid-column: 1 / -1; grid-row: 2; font-size: 0.875rem; }
+  .sheet td.v { grid-row: 1; grid-column: 2; }
+  .sheet .grp { padding-top: 16px; padding-bottom: 4px; border-bottom: 0; }
+  .sheet .grp td { padding: 0; }
+}
+@media (max-width: 400px) { .brand span { display: none; } }
+
 footer { border-top: 1px solid var(--rule); }
 footer .wrap { padding-block: 32px 48px; display: grid; gap: 14px; font-size: var(--step--1); color: var(--muted); max-width: var(--wrap); }
 footer p { max-width: 90ch; }
@@ -233,6 +301,7 @@ footer .row { display: flex; gap: 18px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
+<a class="skip" href="#start"><span data-l="zh">跳到快速开始</span><span data-l="en">Skip to Get started</span></a>
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#top"><b>OpenDsec</b><span>by Kernflux</span></a>
@@ -241,14 +310,19 @@ footer .row { display: flex; gap: 18px; flex-wrap: wrap; }
       <a href="#features"><span data-l="zh">功能</span><span data-l="en">Features</span></a>
       <a href="#arch"><span data-l="zh">架构</span><span data-l="en">Architecture</span></a>
       <a href="#start"><span data-l="zh">快速开始</span><span data-l="en">Get started</span></a>
+      <a href="#faq"><span data-l="zh">常见问题</span><span data-l="en">FAQ</span></a>
       <a href="#license"><span data-l="zh">许可</span><span data-l="en">License</span></a>
-      <a href="https://github.com/Kernflux/opendsec">GitHub</a>
     </nav>
     <div class="tools">
       <div class="seg" role="group" aria-label="Language">
         <button type="button" id="lang-zh" data-set-lang="zh" aria-pressed="true">中文</button>
         <button type="button" id="lang-en" data-set-lang="en" aria-pressed="false">EN</button>
       </div>
+      <button type="button" class="icon-btn" id="theme" aria-label="Switch light or dark">
+        <svg class="sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3"/></svg>
+        <svg class="moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg>
+      </button>
+      <a class="gh" href="https://github.com/Kernflux/opendsec"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
     </div>
   </div>
 </header>
@@ -267,7 +341,7 @@ footer .row { display: flex; gap: 18px; flex-wrap: wrap; }
           <span data-l="en">OpenDsec runs large fleets of Firecracker microVMs, containers and QEMU VMs on your own machines, for reinforcement-learning rollouts and code-executing agents. It implements the design in DeepSeek's DSec paper and speaks the E2B API.</span>
         </p>
         <div class="cta">
-          <a class="btn primary" href="#start"><span data-l="zh">5 分钟单机部署</span><span data-l="en">Install on one machine</span></a>
+          <a class="btn primary" href="#start"><span data-l="zh">在一台机器上安装</span><span data-l="en">Install on one machine</span></a>
           <a class="btn" href="https://github.com/Kernflux/opendsec"><span data-l="zh">在 GitHub 上查看</span><span data-l="en">View on GitHub</span></a>
         </div>
         <p class="note">
@@ -469,6 +543,7 @@ footer .row { display: flex; gap: 18px; flex-wrap: wrap; }
           <path class="ln dash" d="M455 230 V342" marker-end="url(#am)"/>
         </svg>
       </div>
+      <p class="hint"><span data-l="zh">左右滑动查看完整架构图</span><span data-l="en">Swipe sideways to see the whole diagram</span></p>
       <div class="legend">
         <span data-l="zh">实线：请求　虚线：健康探测和镜像读取</span>
         <span data-l="en">Solid: requests · Dashed: health probes and image reads</span>
@@ -480,27 +555,34 @@ footer .row { display: flex; gap: 18px; flex-wrap: wrap; }
     <div class="wrap">
       <div class="head">
         <p class="label"><span data-l="zh">快速开始</span><span data-l="en">Get started</span></p>
-        <h2><span data-l="zh">一台 Linux 机器，几分钟装好</span><span data-l="en">One Linux machine, a few minutes</span></h2>
-        <p><span data-l="zh">需要 x86_64、root、systemd、cgroup v2，以及 Go 1.27+ 和 make。有 /dev/kvm 时同时装好 microVM，没有就只装容器。已在全新的 Ubuntu 24.04 上验证。</span><span data-l="en">Needs x86_64, root, systemd, cgroup v2, Go 1.27+ and make. With /dev/kvm you get microVMs too; without it, containers only. Verified on fresh Ubuntu 24.04.</span></p>
+        <h2><span data-l="zh">一台 Linux 机器，约 10 分钟装好</span><span data-l="en">One Linux machine, about 10 minutes</span></h2>
+        <p><span data-l="zh">需要 x86_64、systemd、cgroup v2 和 root。有 /dev/kvm 时同时装好 microVM，没有就只装容器。以下步骤在全新的 Ubuntu 24.04 上验证过，大部分时间花在编译上。</span><span data-l="en">Needs x86_64, systemd, cgroup v2 and root. With /dev/kvm you get microVMs too; without it, containers only. These steps were verified on fresh Ubuntu 24.04; most of the time goes into the build.</span></p>
       </div>
       <div class="split">
         <div class="steps">
           <div class="step"><div class="n">1</div><div class="b">
-            <p><span data-l="zh">取代码并安装。脚本会下载 guest 内核，装好全部服务和 E2B 网关，并各跑一个容器和 microVM 做检查。</span><span data-l="en">Clone and install. The script downloads the guest kernel, installs every service and the E2B gateway, then runs one container and one microVM as a check.</span></p>
-            <pre><code>git clone https://github.com/kernflux/opendsec
-cd opendsec
-sudo deploy/quickstart.sh</code></pre>
+            <p><span data-l="zh">切换到 root，装好 make、git 和 Go。</span><span data-l="en">Become root and install make, git and Go.</span></p>
+            <div class="cb"><button type="button" class="copy" data-copy="s0"><span data-l="zh">复制</span><span data-l="en">copy</span></button><pre><code id="s0">sudo -i
+apt install -y make git python3-venv
+curl -fsSL https://go.dev/dl/go1.27.3.linux-amd64.tar.gz \
+  | tar -C /usr/local -xz</code></pre></div>
           </div></div>
           <div class="step"><div class="n">2</div><div class="b">
-            <p><span data-l="zh">装 Python SDK，运行示例。</span><span data-l="en">Install the Python SDK and run the example.</span></p>
-            <pre><code>. /root/opendsec-ops/demo.env
-python3 -m venv .venv
-.venv/bin/pip install ./sdk/python
-.venv/bin/python sdk/python/examples/quickstart.py</code></pre>
+            <p><span data-l="zh">取代码并安装。脚本会下载 guest 内核，装好全部服务和 E2B 网关，并各跑一个容器和 microVM 做检查。</span><span data-l="en">Clone and install. The script downloads the guest kernel, installs every service and the E2B gateway, then runs one container and one microVM as a check.</span></p>
+            <div class="cb"><button type="button" class="copy" data-copy="s1"><span data-l="zh">复制</span><span data-l="en">copy</span></button><pre><code id="s1">git clone https://github.com/kernflux/opendsec
+cd opendsec
+deploy/quickstart.sh</code></pre></div>
           </div></div>
           <div class="step"><div class="n">3</div><div class="b">
+            <p><span data-l="zh">装 Python SDK，运行示例。</span><span data-l="en">Install the Python SDK and run the example.</span></p>
+            <div class="cb"><button type="button" class="copy" data-copy="s2"><span data-l="zh">复制</span><span data-l="en">copy</span></button><pre><code id="s2">. /root/opendsec-ops/demo.env
+python3 -m venv .venv
+.venv/bin/pip install ./sdk/python
+.venv/bin/python sdk/python/examples/quickstart.py</code></pre></div>
+          </div></div>
+          <div class="step"><div class="n">4</div><div class="b">
             <p><span data-l="zh">不用了就卸载，机器恢复原样。</span><span data-l="en">Remove everything when you are done.</span></p>
-            <pre><code>sudo deploy/quickstart.sh --uninstall</code></pre>
+            <div class="cb"><button type="button" class="copy" data-copy="s3"><span data-l="zh">复制</span><span data-l="en">copy</span></button><pre><code id="s3">deploy/quickstart.sh --uninstall</code></pre></div>
           </div></div>
         </div>
 
@@ -511,35 +593,41 @@ python3 -m venv .venv
             <button type="button" role="tab" id="tab-cli" aria-selected="false" aria-controls="p-cli" tabindex="-1">CLI</button>
           </div>
           <div class="panel" role="tabpanel" id="p-py" aria-labelledby="tab-py">
-            <button type="button" class="copy" data-copy="code-py">copy</button>
-<pre class="code" id="code-py"><span class="k">from</span> opendsec <span class="k">import</span> DSecClient, DSecContainerRunArgs
+            <button type="button" class="copy" data-copy="code-py"><span data-l="zh">复制</span><span data-l="en">copy</span></button>
+<pre class="code" id="code-py"><span class="k">import</span> asyncio
+<span class="k">from</span> opendsec <span class="k">import</span> DSecClient, DSecContainerRunArgs
 
-<span class="k">async with</span> DSecClient() <span class="k">as</span> client:
-    sb = <span class="k">await</span> client.run_container(DSecContainerRunArgs(
-        container_image=<span class="k">"root/py:3.12"</span>,
-        memory_limit_mb=4096, cpu_cores_limit=4,
-        network_rules={<span class="k">"pypi"</span>: True}, task_id=<span class="k">"job-1"</span>))
-    r = <span class="k">await</span> sb.run_shell(<span class="k">"pip install pytest &amp;&amp; pytest -q"</span>)
+<span class="k">async def</span> main():
+    <span class="c"># reads OPENDSEC_ADDR, OPENDSEC_TOKEN, OPENDSEC_PROJECT, OPENDSEC_CA</span>
+    <span class="k">async with</span> DSecClient() <span class="k">as</span> client:
+        sb = <span class="k">await</span> client.run_container(DSecContainerRunArgs(
+            container_image=<span class="k">"root/py:3.12"</span>,
+            memory_limit_mb=1024, cpu_cores_limit=2, task_id=<span class="k">"job-1"</span>))
+        r = <span class="k">await</span> sb.run_shell(<span class="k">"python3 -c 'print(6*7)'"</span>)
+        print(r.stdout)
 
-    forks = <span class="k">await</span> sb.fork(count=8)   <span class="c"># 8 copies of this exact state</span>
-    <span class="k">await</span> client.pause_task(<span class="k">"job-1"</span>)  <span class="c"># preempted: pause the batch</span></pre>
+        forks = <span class="k">await</span> sb.fork(count=4)   <span class="c"># 4 copies of this exact state</span>
+        <span class="k">for</span> f <span class="k">in</span> forks:
+            <span class="k">await</span> f.stop()
+        <span class="k">await</span> sb.stop()
+
+asyncio.run(main())</pre>
           </div>
           <div class="panel" role="tabpanel" id="p-e2b" aria-labelledby="tab-e2b" hidden>
-            <button type="button" class="copy" data-copy="code-e2b">copy</button>
-<pre class="code" id="code-e2b"><span class="c"># point the E2B SDK at your gateway; nothing else changes</span>
-export E2B_API_URL=http://gateway:7400
-export E2B_SANDBOX_URL=http://gateway:7400
-export E2B_API_KEY=&lt;OpenDsec token&gt;
-
-<span class="k">from</span> e2b <span class="k">import</span> Sandbox
+            <p class="cap"><span data-l="zh">把 E2B SDK 指向你的网关，其他代码不用改。quickstart 生成的 demo.env 已经设置好这三个变量。</span><span data-l="en">Point the E2B SDK at your gateway; nothing else changes. The demo.env from quickstart already sets these three.</span></p>
+<pre class="code" style="border-radius:0;border-bottom:1px solid var(--rule)">export E2B_API_URL=http://&lt;gateway&gt;:7400
+export E2B_SANDBOX_URL=http://&lt;gateway&gt;:7400
+export E2B_API_KEY=&lt;OpenDsec token&gt;</pre>
+            <div class="cb"><button type="button" class="copy" data-copy="code-e2b"><span data-l="zh">复制</span><span data-l="en">copy</span></button>
+<pre class="code" id="code-e2b"><span class="k">from</span> e2b <span class="k">import</span> Sandbox
 
 sbx = Sandbox.create()
 print(sbx.commands.run(<span class="k">"uname -r"</span>).stdout)
 snap = sbx.create_snapshot()        <span class="c"># microVM: memory included</span>
-copy = Sandbox.create(snap.snapshot_id)</pre>
+copy = Sandbox.create(snap.snapshot_id)</pre></div>
           </div>
           <div class="panel" role="tabpanel" id="p-cli" aria-labelledby="tab-cli" hidden>
-            <button type="button" class="copy" data-copy="code-cli">copy</button>
+            <button type="button" class="copy" data-copy="code-cli"><span data-l="zh">复制</span><span data-l="en">copy</span></button>
 <pre class="code" id="code-cli"><span class="c"># import an image into the shared store</span>
 opendsecctl image import docker://python:3.12-slim \
     -as root/rl/python:3.12 -store /mnt/opendsec-images
@@ -587,6 +675,37 @@ opendsecctl exec "$ID" python3 -c 'print(6*7)'</pre>
           <p><span data-l="zh">提供清单文件，支持容器 sandbox。多节点还没有充分验证。</span><span data-l="en">Manifests for container sandboxes. Multi-node is not fully verified yet.</span></p>
           <a href="https://github.com/Kernflux/opendsec/blob/main/deploy/README.md">deploy/README.md</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="head">
+        <p class="label"><span data-l="zh">常见问题</span><span data-l="en">FAQ</span></p>
+        <h2><span data-l="zh">安装之前</span><span data-l="en">Before you install</span></h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary><span data-l="zh">没有 KVM 能用吗？</span><span data-l="en">Does it work without KVM?</span></summary>
+          <div class="a"><p><span data-l="zh">能。安装脚本发现没有 /dev/kvm 时只装容器后端，SDK 和 E2B 接口照常可用。要跑 microVM，用裸金属机器，或者开启了嵌套虚拟化的云主机。</span><span data-l="en">Yes. Without /dev/kvm the installer sets up the container backend only, and the SDK and E2B API work as usual. For microVMs, use bare metal or a cloud VM with nested virtualization.</span></p></div>
+        </details>
+        <details>
+          <summary><span data-l="zh">支持哪些 Linux 发行版？</span><span data-l="en">Which Linux distributions are supported?</span></summary>
+          <div class="a"><p><span data-l="zh">全新安装的 Ubuntu 24.04 上完整验证过。要求内核 5.15 以上、cgroup v2、systemd、x86_64。其他发行版应该可以运行，但还没有逐一验证；遇到问题请提 issue。</span><span data-l="en">Fully verified on fresh Ubuntu 24.04. It needs kernel 5.15+, cgroup v2, systemd and x86_64. Other distributions should work but have not each been verified; please open an issue if one does not.</span></p></div>
+        </details>
+        <details>
+          <summary><span data-l="zh">和 E2B 是什么关系？</span><span data-l="en">How does it relate to E2B?</span></summary>
+          <div class="a"><p><span data-l="zh">OpenDsec 提供和 E2B 兼容的 API，按 E2B SDK 写的程序换三个环境变量就能跑在你自己的机器上。还不支持监听目录、签名的文件 URL 和构建 template，差别和迁移方法见 <a href="https://github.com/Kernflux/opendsec/blob/main/docs/E2B.md">docs/E2B.md</a>。</span><span data-l="en">OpenDsec serves an E2B-compatible API, so code written for the E2B SDK runs on your machines after changing three environment variables. Directory watching, signed file URLs and template builds are not supported yet; see <a href="https://github.com/Kernflux/opendsec/blob/main/docs/E2B.md">docs/E2B.md</a> for the differences and how to migrate.</span></p></div>
+        </details>
+        <details>
+          <summary><span data-l="zh">机器不能访问外网，怎么装？</span><span data-l="en">How do I install without internet access?</span></summary>
+          <div class="a"><p><span data-l="zh">在一台能上网的机器上运行 <code>deploy/offline/build-bundle.sh</code> 做出离线包，拷到目标机器上执行 <code>./install.sh</code>。离线包里带了 guest 内核、镜像和 Python 依赖，单机和集群都支持。</span><span data-l="en">Run <code>deploy/offline/build-bundle.sh</code> on a connected machine, copy the bundle over and run <code>./install.sh</code>. It carries the guest kernel, an image and the Python wheels, for a single node or a cluster.</span></p></div>
+        </details>
+        <details>
+          <summary><span data-l="zh">现在能用在生产环境吗？</span><span data-l="en">Is it ready for production?</span></summary>
+          <div class="a"><p><span data-l="zh">当前是 0.x 版本，1.0 之前接口可能调整，兼容策略见 <a href="https://github.com/Kernflux/opendsec/blob/main/docs/VERSIONING.md">VERSIONING.md</a>。在压力下滚动升级、硬重启管控节点、切换 IAM leader 都验证过没有失败的调用。需要技术支持或商业授权，请发邮件联系。</span><span data-l="en">It is at 0.x, and interfaces may change before 1.0; see <a href="https://github.com/Kernflux/opendsec/blob/main/docs/VERSIONING.md">VERSIONING.md</a>. Rolling upgrades, a hard reset of a control node and an IAM leader change have each been run under load with no failed calls. For support or a commercial license, email us.</span></p></div>
+        </details>
       </div>
     </div>
   </section>
@@ -650,16 +769,26 @@ opendsecctl exec "$ID" python3 -c 'print(6*7)'</pre>
     });
     try { localStorage.setItem('opendsec-lang', l); } catch (e) {}
   }
-  var start = 'zh';
-  var h = location.hash.replace('#', '');
-  if (h === 'en' || h === 'zh') start = h;
-  else {
-    var saved = null;
-    try { saved = localStorage.getItem('opendsec-lang'); } catch (e) {}
-    if (saved === 'en' || saved === 'zh') start = saved;
-    else if (!/^zh/i.test(navigator.language || '')) start = 'en';
+  setLang(root.getAttribute('data-lang') === 'en' ? 'en' : 'zh');
+
+  document.getElementById('theme').addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var t = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem('opendsec-theme', t); } catch (e) {}
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.links a[href^="#"]'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) { a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + e.target.id)); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    links.forEach(function (a) { var s = document.querySelector(a.getAttribute('href')); if (s) io.observe(s); });
   }
-  setLang(start);
   document.querySelectorAll('[data-set-lang]').forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
   });
@@ -688,7 +817,7 @@ opendsecctl exec "$ID" python3 -c 'print(6*7)'</pre>
       var el = document.getElementById(b.getAttribute('data-copy'));
       var text = el.textContent;
       var label = b.innerHTML;
-      function done(msg) { b.textContent = msg; setTimeout(function () { b.innerHTML = label; }, 1400); }
+      function done(msg) { b.textContent = msg; b.setAttribute('data-done', ''); setTimeout(function () { b.innerHTML = label; b.removeAttribute('data-done'); }, 1400); }
       function fallback() {
         var r = document.createRange(); r.selectNodeContents(el);
         var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);

@@ -1,30 +1,28 @@
 # Docs
 
+## Find it by task
+
 | I want to… | Read |
 |---|---|
-| Try it on one machine | [Get started](/en/docs/quickstart) |
-| Deploy a cluster or install offline | [Deployment](/en/docs/deploy) |
-| Move code written for E2B | [Migrating from E2B](/en/docs/e2b) |
+| Try it on one machine | [Get started](/en/docs/quickstart); details in [Single-node install](/en/docs/install) |
+| Deploy a production cluster from scratch | [Cluster deployment](/en/docs/cluster) |
+| Install in a data center without internet access | [Deployment options: air-gapped](/en/docs/deploy#air-gapped) |
+| Understand sandboxes, backends, timeouts, sessions | [Concepts](/en/docs/concepts) |
+| Call OpenDsec from a program | [Caller guide](/en/docs/user-guide), [Python SDK reference](/en/docs/python-sdk) |
+| Work from the command line | [CLI reference](/en/docs/cli) |
+| Import images, build environments, warm up with snapshots | [Images and snapshots](/en/docs/images) |
+| Control what sandboxes can reach | [Network policy](/en/docs/network) |
+| Onboard teams, assign quotas and permissions, see usage | [Projects and permissions](/en/docs/iam) |
+| Move code written for the E2B SDK | [Migrating from E2B](/en/docs/e2b) |
+| Change the cluster config | [Configuration reference](/en/docs/configuration) |
+| Upgrade, add machines, maintain, renew certificates, handle failures | [Operations manual](/en/docs/operations) |
+| Set up monitoring, understand alerts | [Monitoring and alerts](/en/docs/monitoring) |
+| Something went wrong | [Troubleshooting](/en/docs/troubleshooting) |
+| Assess security, harden for production | [Security model](/en/docs/security) |
 | Know what stays compatible between versions | [Versioning](/en/docs/versioning) |
+| Understand the internals | [How the components work](/en/docs/components); design and measurements in [SPEC](/docs/spec) (Chinese) |
 | Licensing and the enterprise edition | [License and commercial use](/en/docs/license) |
 
-The detailed documentation is in Chinese for now. Browser translation works well on it:
+## About these docs
 
-| Topic | Page (Chinese) |
-|---|---|
-| Concepts: backends, lifecycle and timeouts, sessions, tasks, images, network, permissions, errors | [核心概念](/docs/concepts) |
-| Single-node install in detail | [单机安装详解](/docs/install) |
-| Cluster deployment, step by step | [多机集群部署](/docs/cluster) |
-| Python SDK reference | [Python SDK 参考](/docs/python-sdk) |
-| CLI reference | [命令行参考](/docs/cli) |
-| Images and snapshots | [镜像与快照](/docs/images) |
-| Network policy | [网络策略](/docs/network) |
-| Projects, principals, permissions, quotas, usage | [项目、身份与权限](/docs/iam) |
-| Configuration reference | [集群配置参考](/docs/configuration) |
-| Operations manual | [运维手册](/docs/operations) |
-| Metrics and alerts | [监控与告警](/docs/monitoring) |
-| Troubleshooting | [故障排查](/docs/troubleshooting) |
-| Security model and hardening | [安全模型](/docs/security) |
-| Components and design | [组件实现](/docs/components), [设计与实测](/docs/spec) |
-
-These pages come from the `docs/` directory of the [opendsec repository](https://github.com/Kernflux/opendsec/tree/main/docs) and are synced daily.
+Apart from Get started, Deployment options, FAQ and License, these pages come from the `docs/` directory of the [opendsec repository](https://github.com/Kernflux/opendsec/tree/main/docs) (English in `docs/en/`) and are synced daily, maintained together with the code. "Edit this page on GitHub" at the bottom of each page opens its source file; changes are welcome.

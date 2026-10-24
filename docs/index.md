@@ -24,4 +24,4 @@
 
 ## 关于这些文档
 
-除了快速开始、部署方式、常见问题和许可这几页，其余文档都来自 [opendsec 仓库](https://github.com/Kernflux/opendsec/tree/main/docs)的 `docs/` 目录，网站每天同步一次，和代码一起维护。每页底部的「在 GitHub 上编辑此页」会打开对应的源文件，欢迎直接提交修改。
+除了快速开始、部署方式、常见问题和许可这几页，其余文档都来自 [opendsec 仓库](https://github.com/Kernflux/opendsec/tree/main/docs)的 `docs/` 目录，网站每天同步一次，和代码一起维护（英文版在 `docs/en/`）。每页底部的「在 GitHub 上编辑此页」会打开对应的源文件，欢迎直接提交修改。

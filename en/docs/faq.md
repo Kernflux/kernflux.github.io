@@ -29,3 +29,7 @@ It is at 0.x, and interfaces may change before 1.0; see [VERSIONING.md](/en/docs
 ## Does it support GPUs?
 
 GPUs can be given to container sandboxes exclusively or shared, and the full VM backend supports PCI passthrough. Neither has been tested on real GPUs yet.
+
+## Something else?
+
+See [Troubleshooting](/en/docs/troubleshooting), which lists the problems we have met by symptom, with causes and fixes. If yours is not there, please [open an issue](https://github.com/Kernflux/opendsec/issues).

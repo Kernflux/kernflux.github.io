@@ -9,7 +9,7 @@
 
 ## Single machine
 
-One command installs everything; see [Get started](/en/docs/quickstart).
+One command installs everything; see [Get started](/en/docs/quickstart), and [Single-node install](/en/docs/install) for the options, what gets installed, file locations and common problems.
 
 ## Cluster
 
@@ -18,7 +18,7 @@ One command installs everything; see [Get started](/en/docs/quickstart).
 - An L4 load balancer in front, health-checking `/readyz`.
 - Once installed, fleet takes over: staged rollouts, config changes, new nodes and maintenance, with failed nodes rolled back automatically.
 
-The full steps are in the README's "Deploy a cluster" section; the detailed guides are [cluster deployment](/docs/cluster) and the [operations manual](/docs/operations) (Chinese).
+Step by step from scratch: [Cluster deployment](/en/docs/cluster). Day-to-day operations afterwards: [Operations manual](/en/docs/operations).
 
 ::: warning NFS version
 Mount NFS with `vers=4.2`. Version 4.1 cannot find the holes in sparse files, which makes creating from a memory snapshot on another node more than twice as slow. `opendsecctl image store-check` checks for this.

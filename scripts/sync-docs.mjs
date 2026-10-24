@@ -9,6 +9,18 @@ const repo = 'https://github.com/Kernflux/opendsec'
 
 // repository path -> site page (without .md); the page file is <page>.md
 export const pages = {
+  'docs/CONCEPTS.md': '/docs/concepts',
+  'docs/INSTALL.md': '/docs/install',
+  'docs/CLUSTER.md': '/docs/cluster',
+  'docs/PYTHON_SDK.md': '/docs/python-sdk',
+  'docs/CLI.md': '/docs/cli',
+  'docs/IMAGES.md': '/docs/images',
+  'docs/NETWORK.md': '/docs/network',
+  'docs/IAM.md': '/docs/iam',
+  'docs/CONFIGURATION.md': '/docs/configuration',
+  'docs/MONITORING.md': '/docs/monitoring',
+  'docs/TROUBLESHOOTING.md': '/docs/troubleshooting',
+  'docs/SECURITY_MODEL.md': '/docs/security',
   'docs/USER_GUIDE.md': '/docs/user-guide',
   'docs/OPERATIONS.md': '/docs/operations',
   'docs/SLO.md': '/docs/slo',

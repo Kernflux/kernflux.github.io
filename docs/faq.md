@@ -29,3 +29,7 @@ OpenDsec 提供和 E2B 兼容的 API。按 E2B SDK 写的程序，把 `E2B_API_U
 ## 支持 GPU 吗？
 
 支持把 GPU 独占或共享给容器 sandbox，完整 VM 后端支持 PCI 直通。这两项还没有在真实 GPU 上测过。
+
+## 还有别的问题？
+
+先看[故障排查](/docs/troubleshooting)，那里按现象列出了遇到过的问题和处理方法。没有找到的，请[提 issue](https://github.com/Kernflux/opendsec/issues)。

@@ -1,0 +1,38 @@
+/* Brand colours on top of the default theme; everything else is stock VitePress. */
+:root {
+  --vp-c-brand-1: #1f4fd8;
+  --vp-c-brand-2: #3463e6;
+  --vp-c-brand-3: #1f4fd8;
+  --vp-c-brand-soft: rgba(31, 79, 216, 0.12);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #1f4fd8 20%, #0e9fb8);
+}
+.dark {
+  --vp-c-brand-1: #8aa8ff;
+  --vp-c-brand-2: #6e92ff;
+  --vp-c-brand-3: #3463e6;
+  --vp-c-brand-soft: rgba(126, 162, 255, 0.16);
+  --vp-home-hero-name-background: linear-gradient(120deg, #8aa8ff 20%, #4fd1e6);
+}
+
+/* Measured-numbers table and architecture diagram on the home page */
+.VPHome .vp-doc table td:last-child,
+.VPHome .vp-doc table th:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.arch { overflow-x: auto; margin: 16px 0; border: 1px solid var(--vp-c-divider); border-radius: 12px; background: var(--vp-c-bg-soft); padding: 12px; }
+.arch svg { display: block; width: 100%; min-width: 720px; height: auto; }
+.arch .box { fill: var(--vp-c-bg); stroke: var(--vp-c-text-2); stroke-width: 1.2; }
+.arch .box.acc { stroke: var(--vp-c-brand-1); stroke-width: 1.8; }
+.arch .store { fill: var(--vp-c-default-soft); stroke: var(--vp-c-divider); }
+.arch .t1 { font: 600 14px var(--vp-font-family-base); fill: var(--vp-c-text-1); }
+.arch .t2 { font: 400 11.5px var(--vp-font-family-mono); fill: var(--vp-c-text-2); }
+.arch .ln { stroke: var(--vp-c-text-2); stroke-width: 1.2; fill: none; }
+.arch .ln.dash { stroke-dasharray: 4 4; stroke: var(--vp-c-text-3); }
+.arch .ah { fill: var(--vp-c-text-2); }
+.arch .ah.m { fill: var(--vp-c-text-3); }
+.VPHome .vp-doc table { display: table; width: 100%; }
+.vp-doc td small { color: var(--vp-c-text-2); font-size: 0.85em; }
+.swipe { display: none; font-size: 13px; color: var(--vp-c-text-2); }
+@media (max-width: 720px) { .swipe { display: block; } }
+
+/* the hero card is a desktop extra; phones go straight to the text */
+@media (max-width: 959px) { .VPHero .image { display: none; } }

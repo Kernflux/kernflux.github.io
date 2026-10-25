@@ -97,6 +97,14 @@ const software = (description: string) => ({
   keywords: 'sandbox, Firecracker, microVM, reinforcement learning, AI agents, code execution, E2B',
 })
 
+// Each "<h> question" and the prose under it, as FAQPage questions, for
+// answers quoted by search engines and AI assistants.
+function questions(md: string, h: string) {
+  const re = new RegExp(`^${h} (.+)\\n([\\s\\S]*?)(?=^${h} |(?![\\s\\S]))`, 'gm')
+  return [...md.matchAll(re)].map(([, q, a]) => ({ '@type': 'Question', name: q.trim(),
+    acceptedAnswer: { '@type': 'Answer', text: plain(a.replace(/```[\s\S]*?```/g, '')) } }))
+}
+
 function jsonld(rel: string, fm: Record<string, any>, title: string, description: string, lastUpdated?: number) {
   const url = site + urlOf(rel)
   const lang = isEn(rel) ? 'en' : 'zh-CN'
@@ -109,17 +117,18 @@ function jsonld(rel: string, fm: Record<string, any>, title: string, description
   }
   const modified = lastUpdated ? new Date(lastUpdated).toISOString() : undefined
   if (/(^|\/)blog\/posts\//.test(rel)) {
-    return { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: fm.title ?? title, description, url,
+    const post = { '@type': 'BlogPosting', headline: fm.title ?? title, description, url,
       mainEntityOfPage: url, image, inLanguage: lang, datePublished: fm.date ? new Date(fm.date).toISOString().slice(0, 10) : undefined,
       dateModified: modified, author: { '@type': 'Organization', name: fm.author ?? 'Kernflux', url: `${site}/` },
       publisher: { '@id': org['@id'] }, about: { '@id': `${site}/#software` } }
+    // A closing "## FAQ" section of "### question"s.
+    const faq = body(read(rel)!).match(/^## (?:FAQ|常见问题)\s*\n([\s\S]*?)(?=^## |(?![\s\S]))/m)
+    const qa = faq ? questions(faq[1], '###') : []
+    if (!qa.length) return { '@context': 'https://schema.org', ...post }
+    return { '@context': 'https://schema.org', '@graph': [post, { '@type': 'FAQPage', url, inLanguage: lang, mainEntity: qa }] }
   }
   if (/(^|\/)docs\/faq\.md$/.test(rel)) {
-    // Each "## question" and the prose under it, for answers quoted by
-    // search engines and AI assistants.
-    const qa = [...body(read(rel)!).matchAll(/^## (.+)\n([\s\S]*?)(?=^## |(?![\s\S]))/gm)]
-      .map(([, q, a]) => ({ '@type': 'Question', name: q.trim(),
-        acceptedAnswer: { '@type': 'Answer', text: plain(a.replace(/```[\s\S]*?```/g, '')) } }))
+    const qa = questions(body(read(rel)!), '##')
     return { '@context': 'https://schema.org', '@type': 'FAQPage', url, inLanguage: lang, mainEntity: qa }
   }
   if (/(^|\/)docs\//.test(rel)) {

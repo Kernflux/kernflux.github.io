@@ -44,6 +44,8 @@ export default defineConfig({
   srcExclude: ['README.md', '_opendsec/**', 'scripts/**'],
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    // Google Search Console ownership of https://kernflux.github.io/
+    ['meta', { name: 'google-site-verification', content: 'Wuz-gXvUEA5T-kL7cw0hJBFV9hOAURFTNQPaE-e4Es4' }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'OpenDsec 博客', href: '/feed.xml' }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'OpenDsec blog', href: '/en/feed.xml' }],
   ],

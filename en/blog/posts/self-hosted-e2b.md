@@ -132,7 +132,7 @@ Measured on 2026-10-23 on the project's bare-metal test machines (AMD EPYC 9Y24)
 | First `run_code` | about 40 ms |
 | `fork(count=2)` | about 100–150 ms |
 | `create_snapshot()` | about 40–70 ms |
-| `Sandbox.create(snapshot_id)` | about 65–85 ms |
+| `Sandbox.create(snapshot_id)` | about 65–85 ms; about 0.6 s for the first one right after the snapshot (it waits for the snapshot to be published to the image store) |
 
 ## Growing into a cluster
 

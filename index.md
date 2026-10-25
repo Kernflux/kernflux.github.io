@@ -37,6 +37,15 @@ features:
     details: fleet 分批滚动升级、失败自动回退；离线安装包；Prometheus 指标和告警。升级任何组件都不影响运行中的 sandbox。
 ---
 
+## OpenDsec 是什么
+
+OpenDsec 是开源的 sandbox 基础设施：在你自己的 Linux 机器上，为强化学习 rollout 和会执行代码的 AI 智能体运行大批相互隔离的 sandbox，从一台机器到整个集群都可以。它提供 Python SDK、命令行工具和兼容 E2B 的 API，以 AGPL-3.0 开源。
+
+- **适合**：sandbox 必须跑在自己机房或离线环境里的团队；一次要起几千个 sandbox 的强化学习训练；需要连同内存 fork 运行中的环境；想保留 E2B SDK 代码、但换到自己的基础设施上。
+- **不适合**：只想用托管服务、不想运维任何机器（OpenDsec 没有托管版）；需要在 Linux x86_64 以外的平台上运行。
+
+和 E2B、Daytona、Modal 的区别见[对比](/docs/compare)，常见疑问见[常见问题](/docs/faq)。
+
 ## 实测数据
 
 在 2 × AMD EPYC 9Y24（384 线程）、1.5 TB 内存、NVMe RAID0、Ubuntu 24.04 的裸金属机上测得，不是论文中的数据。测量方法见仓库里的 [docs/SPEC.md](/docs/spec)。

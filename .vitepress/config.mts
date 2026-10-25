@@ -84,6 +84,7 @@ export default defineConfig({
                 { text: '快速开始', link: '/docs/quickstart' },
                 { text: '核心概念', link: '/docs/concepts' },
                 { text: '常见问题', link: '/docs/faq' },
+                { text: '与 E2B、Daytona、Modal 对比', link: '/docs/compare' },
               ],
             },
             {
@@ -103,7 +104,7 @@ export default defineConfig({
                 { text: '镜像与快照', link: '/docs/images' },
                 { text: '网络策略', link: '/docs/network' },
                 { text: '项目、身份与权限', link: '/docs/iam' },
-                { text: '从 E2B 迁移（英文）', link: '/en/docs/e2b' },
+                { text: '从 E2B 迁移', link: '/docs/e2b' },
               ],
             },
             {
@@ -115,7 +116,7 @@ export default defineConfig({
                 { text: '故障排查', link: '/docs/troubleshooting' },
                 { text: '安全模型', link: '/docs/security' },
                 { text: '服务目标（SLO）', link: '/docs/slo' },
-                { text: '版本与兼容（英文）', link: '/en/docs/versioning' },
+                { text: '版本与兼容', link: '/docs/versioning' },
               ],
             },
             {
@@ -165,6 +166,7 @@ export default defineConfig({
                 { text: 'Get started', link: '/en/docs/quickstart' },
                 { text: 'Concepts', link: '/en/docs/concepts' },
                 { text: 'FAQ', link: '/en/docs/faq' },
+                { text: 'vs E2B, Daytona, Modal', link: '/en/docs/compare' },
               ],
             },
             {

@@ -17,7 +17,7 @@ description: "OpenDsec 文档：安装和部署、Python SDK 与命令行、镜�
 | 导入镜像、制作环境、用快照预热 | [镜像与快照](/docs/images) |
 | 控制 sandbox 能访问哪些网络 | [网络策略](/docs/network) |
 | 给团队开通、分配配额和权限、查用量 | [项目、身份与权限](/docs/iam) |
-| 把按 E2B SDK 写的程序迁过来 | [从 E2B 迁移](/en/docs/e2b)（英文） |
+| 把按 E2B SDK 写的程序迁过来 | [从 E2B 迁移](/docs/e2b) |
 | 修改集群配置 | [集群配置参考](/docs/configuration) |
 | 升级、加机器、维护、换证书、处理故障 | [运维手册](/docs/operations) |
 | 配置监控、看懂告警 | [监控与告警](/docs/monitoring) |

@@ -114,6 +114,14 @@ function jsonld(rel: string, fm: Record<string, any>, title: string, description
       dateModified: modified, author: { '@type': 'Organization', name: fm.author ?? 'Kernflux', url: `${site}/` },
       publisher: { '@id': org['@id'] }, about: { '@id': `${site}/#software` } }
   }
+  if (/(^|\/)docs\/faq\.md$/.test(rel)) {
+    // Each "## question" and the prose under it, for answers quoted by
+    // search engines and AI assistants.
+    const qa = [...body(read(rel)!).matchAll(/^## (.+)\n([\s\S]*?)(?=^## |(?![\s\S]))/gm)]
+      .map(([, q, a]) => ({ '@type': 'Question', name: q.trim(),
+        acceptedAnswer: { '@type': 'Answer', text: plain(a.replace(/```[\s\S]*?```/g, '')) } }))
+    return { '@context': 'https://schema.org', '@type': 'FAQPage', url, inLanguage: lang, mainEntity: qa }
+  }
   if (/(^|\/)docs\//.test(rel)) {
     const docs = isEn(rel) ? '/en/docs/' : '/docs/'
     const crumbs = [

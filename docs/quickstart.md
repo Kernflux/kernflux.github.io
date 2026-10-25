@@ -111,5 +111,5 @@ deploy/quickstart.sh --uninstall
 ## 下一步
 
 - 多台机器组成集群、离线安装：见[部署方式](/docs/deploy)。
-- 从 E2B 迁移：见 [docs/E2B.md](/en/docs/e2b)。
+- 从 E2B 迁移：见 [从 E2B 迁移](/docs/e2b)。
 - 全部命令：`opendsecctl --help`。

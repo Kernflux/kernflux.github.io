@@ -37,6 +37,15 @@ features:
     details: Staged fleet rollouts with automatic rollback, an offline bundle, Prometheus metrics and alerts. Upgrading any component leaves running sandboxes alone.
 ---
 
+## What OpenDsec is
+
+OpenDsec is open-source sandbox infrastructure: it runs large numbers of isolated sandboxes on your own Linux machines, from one machine to a cluster, for reinforcement-learning rollouts and code-executing AI agents. It comes with a Python SDK, a CLI and an E2B-compatible API, under AGPL-3.0.
+
+- **A good fit for:** teams whose sandboxes must run in their own data center or offline; RL training that starts thousands of sandboxes at once; forking running environments with their memory; keeping E2B SDK code while moving to your own infrastructure.
+- **Not a fit for:** wanting a hosted service with no machines to run (there is no hosted OpenDsec); platforms other than Linux x86_64.
+
+How it differs from E2B, Daytona and Modal: see [the comparison](/en/docs/compare). Common questions: [FAQ](/en/docs/faq).
+
 ## Measured
 
 On bare metal with 2 × AMD EPYC 9Y24 (384 threads), 1.5 TB RAM, NVMe RAID0 and Ubuntu 24.04. These are our own measurements, not figures from the paper; how each was taken is in [docs/SPEC.md](/docs/spec).

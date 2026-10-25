@@ -32,8 +32,8 @@ const docs = {
   'slo': ['docs/SLO.md', 'docs/en/SLO.md'],
   'components': ['docs/COMPONENTS.md', 'docs/en/COMPONENTS.md'],
   'spec': ['docs/SPEC.md', null],
-  'e2b': [null, 'docs/E2B.md'],
-  'versioning': [null, 'docs/VERSIONING.md'],
+  'e2b': ['docs/E2B.md', 'docs/en/E2B.md'],
+  'versioning': ['docs/VERSIONING.md', 'docs/en/VERSIONING.md'],
 }
 
 // repository path -> site path, for rewriting links

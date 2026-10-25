@@ -1,3 +1,7 @@
+---
+description: "OpenDsec FAQ: running without KVM, supported Linux distributions, how it relates to E2B and DeepSeek, air-gapped installs, production readiness and GPU support."
+---
+
 # FAQ
 
 ## Does it work without KVM?

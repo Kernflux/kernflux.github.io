@@ -1,3 +1,7 @@
+---
+description: "OpenDsec's servers are AGPL-3.0 and its Python SDK and clients Apache-2.0, so programs that call it are not bound by the AGPL. Commercial licenses and an enterprise edition are available."
+---
+
 # License and commercial use
 
 ## Open source

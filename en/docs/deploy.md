@@ -1,3 +1,7 @@
+---
+description: "How to deploy OpenDsec: a one-command single-machine install, a multi-node production cluster, air-gapped data centers, or (experimental) Kubernetes."
+---
+
 # Deployment
 
 | Option | Status | For |

@@ -1,3 +1,7 @@
+---
+description: "OpenDsec documentation: installation and deployment, the Python SDK and CLI, images and snapshots, network policy, permissions, operations and monitoring, organized by task."
+---
+
 # Docs
 
 ## Find it by task

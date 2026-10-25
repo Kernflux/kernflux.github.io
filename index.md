@@ -1,5 +1,8 @@
 ---
 layout: home
+title: OpenDsec：开源的 AI 智能体与强化学习 sandbox，兼容 E2B
+titleTemplate: false
+description: 在自己的机器上运行大批 Firecracker microVM、容器和虚拟机，供强化学习训练和 AI 智能体执行代码：约 0.1 秒启动、连同内存 fork、兼容 E2B 的 SDK，AGPL-3.0 开源。
 
 hero:
   name: OpenDsec

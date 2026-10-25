@@ -1,3 +1,7 @@
+---
+description: "OpenDsec 的服务端以 AGPL-3.0 开源，Python SDK 和客户端是 Apache-2.0，调用它的程序不受 AGPL 约束；也提供商业授权和企业版。"
+---
+
 # 许可与商业授权
 
 ## 开源版

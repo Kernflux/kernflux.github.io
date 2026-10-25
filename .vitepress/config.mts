@@ -2,9 +2,7 @@ import { writeFileSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { createContentLoader, defineConfig, type SiteConfig } from 'vitepress'
 import { Feed } from 'feed'
-
-const site = 'https://kernflux.github.io'
-const repo = 'https://github.com/Kernflux/opendsec'
+import { llms, repo, site, sitemapItems, transformHead, transformPageData } from './seo'
 
 // Docs synced from the product repository (scripts/sync-docs.mjs) are edited
 // there. VitePress sends this function to the browser as source text, so it
@@ -48,11 +46,16 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'OpenDsec 博客', href: '/feed.xml' }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'OpenDsec blog', href: '/en/feed.xml' }],
-    ['meta', { property: 'og:title', content: 'OpenDsec' }],
-    ['meta', { property: 'og:url', content: `${site}/` }],
-    ['meta', { property: 'og:description', content: 'Open-source sandbox infrastructure for agentic RL training: Firecracker microVMs, containers, fork with memory, an E2B-compatible API.' }],
   ],
-  buildEnd: feeds,
+  // Per-page description, canonical, hreflang, Open Graph and JSON-LD; the
+  // sitemap with language alternates; llms.txt and Markdown copies (seo.ts).
+  transformPageData,
+  transformHead,
+  sitemap: { hostname: site, transformItems: sitemapItems },
+  async buildEnd(config) {
+    await feeds(config)
+    llms(config)
+  },
   themeConfig: {
     logo: '/logo.svg',
     socialLinks: [{ icon: 'github', link: repo }],

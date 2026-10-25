@@ -1,3 +1,7 @@
+---
+description: "OpenDsec 常见问题：没有 KVM 能不能用、支持哪些 Linux、和 E2B 及 DeepSeek 的关系、离线安装、能否用于生产、是否支持 GPU。"
+---
+
 # 常见问题
 
 ## 没有 KVM 能用吗？

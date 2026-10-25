@@ -1,5 +1,8 @@
 ---
 layout: home
+title: "OpenDsec: open-source, E2B-compatible sandboxes for AI agents"
+titleTemplate: false
+description: Open-source sandboxes on your own machines for RL rollouts and code-executing AI agents. Firecracker microVMs in ~0.1 s, fork with memory, and an E2B-compatible API.
 
 hero:
   name: OpenDsec

@@ -58,7 +58,7 @@ def card(out, headline, sub, chips):
     x, f = 80, font("Regular", 26)
     for c in chips:
         w = d.textlength(c, font=f) + 36
-        d.rounded_rectangle([x, 520, x + w, 568], radius=24, fill="#e8eefc")
+        d.rounded_rectangle([x, 520, x + w, 568], radius=6, fill="#e8eefc")
         d.text((x + 18, 527), c, font=f, fill=BRAND)
         x += w + 14
     d.text((W - 80, 590), "kernflux.github.io", font=font("Regular", 22), fill=MUTED, anchor="rs")
@@ -66,10 +66,10 @@ def card(out, headline, sub, chips):
 
 
 card("public/og.png",
-     "Open-source sandboxes for RL rollouts and AI agents",
-     "Firecracker microVMs, containers and QEMU VMs on your own machines, with an E2B-compatible API.",
+     "Self-hosted AI sandboxes",
+     "Firecracker microVMs, containers and QEMU VMs, with an E2B-compatible API.",
      ["~0.1 s microVMs", "fork with memory", "E2B-compatible", "AGPL-3.0"])
 card("public/og-zh.png",
-     "开源的强化学习与 AI 智能体 sandbox",
-     "在自己的机器上运行 microVM、容器和虚拟机，兼容 E2B 的 API。",
+     "在自己的机器上运行的 AI sandbox",
+     "Firecracker microVM、容器和 QEMU 虚拟机，兼容 E2B 的 API。",
      ["约 0.1 秒启动", "连同内存 fork", "兼容 E2B", "AGPL-3.0"])

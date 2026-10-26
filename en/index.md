@@ -6,8 +6,8 @@ description: Open-source sandboxes on your own machines for RL rollouts and code
 
 hero:
   name: OpenDsec
-  text: An isolated sandbox for every rollout
-  tagline: Run large fleets of Firecracker microVMs, containers and QEMU VMs on your own machines, for reinforcement-learning rollouts and code-executing agents. Implements DeepSeek's DSec paper and speaks the E2B API.
+  text: Self-hosted AI sandboxes
+  tagline: "E2B-compatible: change three environment variables and your code runs on your own cluster. Firecracker microVMs start in about 0.1 s and fork with their memory. Built from DeepSeek's DSec paper, for RL rollouts and code-executing agents."
   actions:
     - theme: brand
       text: Get started

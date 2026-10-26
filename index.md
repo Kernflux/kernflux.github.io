@@ -6,8 +6,8 @@ description: 在自己的机器上运行大批 Firecracker microVM、容器和�
 
 hero:
   name: OpenDsec
-  text: 给每一次 rollout 一个隔离的 sandbox
-  tagline: 在你自己的机器上运行大批 Firecracker microVM、容器和 QEMU 虚拟机，供强化学习训练和会执行代码的智能体使用。照 DeepSeek 的 DSec 论文实现，兼容 E2B 的 SDK。
+  text: 在自己的机器上运行的 AI sandbox
+  tagline: 兼容 E2B 的 SDK，换三个环境变量就能迁过来。Firecracker microVM 约 0.1 秒启动，fork 时连同内存一起复制。照 DeepSeek 的 DSec 论文实现，供强化学习训练和会执行代码的智能体使用。
   actions:
     - theme: brand
       text: 快速开始

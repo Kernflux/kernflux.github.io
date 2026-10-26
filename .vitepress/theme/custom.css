@@ -4,15 +4,13 @@
   --vp-c-brand-2: #3463e6;
   --vp-c-brand-3: #1f4fd8;
   --vp-c-brand-soft: rgba(31, 79, 216, 0.12);
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #1f4fd8 20%, #0e9fb8);
+  --vp-home-hero-name-color: var(--vp-c-text-2);
 }
 .dark {
   --vp-c-brand-1: #8aa8ff;
   --vp-c-brand-2: #6e92ff;
   --vp-c-brand-3: #3463e6;
   --vp-c-brand-soft: rgba(126, 162, 255, 0.16);
-  --vp-home-hero-name-background: linear-gradient(120deg, #8aa8ff 20%, #4fd1e6);
 }
 
 /* Measured-numbers table and architecture diagram on the home page */
@@ -34,5 +32,15 @@
 .swipe { display: none; font-size: 13px; color: var(--vp-c-text-2); }
 @media (max-width: 720px) { .swipe { display: block; } }
 
-/* the hero card is a desktop extra; phones go straight to the text */
+/* Plain home page: the product name is a small label over the headline,
+   square-ish buttons, and features as ruled columns rather than cards. */
+.VPHero .name { font-size: 20px !important; line-height: 28px !important; font-weight: 600; letter-spacing: 0; margin-bottom: 12px; }
+.VPHero .text { letter-spacing: -0.01em; }
+.VPHero .tagline { font-size: 18px !important; line-height: 30px !important; max-width: 560px; }
+.VPHome .VPButton { border-radius: 6px !important; }
+.VPFeature { background: transparent !important; border: 0 !important; border-top: 1px solid var(--vp-c-divider) !important; border-radius: 0 !important; }
+.VPFeature .box { padding: 16px 0 0 !important; }
+.VPFeature .title { font-size: 15px; }
+
+/* the hero code is a desktop extra; phones go straight to the text */
 @media (max-width: 959px) { .VPHero .image { display: none; } }

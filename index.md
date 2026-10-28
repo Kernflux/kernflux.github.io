@@ -46,6 +46,12 @@ OpenDsec 是开源的 sandbox 基础设施：在你自己的 Linux 机器上，�
 
 和 E2B、Daytona、Modal 的区别见[对比](/docs/compare)，常见疑问见[常见问题](/docs/faq)。
 
+## 跑一遍是什么样子
+
+<div class="demo"><img src="/demo.svg" alt="运行 deploy/quickstart.sh 之后，用 Python SDK 创建一个 microVM，执行 print(6*7) 得到 42，再 fork 出 4 个副本" width="801" height="518" loading="lazy"></div>
+
+在一台 8 核虚拟机上录制，quickstart 的 8 分钟剪掉了，其余部分按实际速度播放。0.76 秒是整个 API 调用的时间（调度、启动、agent 就绪），下面表里的 0.1 秒只算 VM 启动本身。步骤见[快速开始](/docs/quickstart)。
+
 ## 实测数据
 
 在 2 × AMD EPYC 9Y24（384 线程）、1.5 TB 内存、NVMe RAID0、Ubuntu 24.04 的裸金属机上测得，不是论文中的数据。测量方法见仓库里的 [docs/SPEC.md](/docs/spec)。

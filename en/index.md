@@ -46,6 +46,12 @@ OpenDsec is open-source sandbox infrastructure: it runs large numbers of isolate
 
 How it differs from E2B, Daytona and Modal: see [the comparison](/en/docs/compare). Common questions: [FAQ](/en/docs/faq).
 
+## What a first run looks like
+
+<div class="demo"><img src="/demo.svg" alt="deploy/quickstart.sh, then the Python SDK creates a microVM, runs print(6*7) to get 42, and forks it into four copies" width="801" height="518" loading="lazy"></div>
+
+Recorded on an 8-core VM. The 8-minute quickstart is cut; everything after it runs in real time. 0.76 s is the whole API call (placement, boot, agent ready); the 0.1 s in the table below is the VM boot alone. The steps are in the [quickstart](/en/docs/quickstart).
+
 ## Measured
 
 On bare metal with 2 × AMD EPYC 9Y24 (384 threads), 1.5 TB RAM, NVMe RAID0 and Ubuntu 24.04. These are our own measurements, not figures from the paper; how each was taken is in [docs/SPEC.md](/docs/spec).

@@ -45,3 +45,5 @@
 
 /* the hero code is a desktop extra; phones go straight to the text */
 @media (max-width: 959px) { .VPHero .image { display: none; } }
+.vp-doc .demo, .demo { overflow-x: auto; margin: 16px 0 8px; max-width: 801px; }
+.demo img { display: block; width: 100%; min-width: 640px; height: auto; border-radius: 8px; }

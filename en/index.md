@@ -50,7 +50,7 @@ How it differs from E2B, Daytona and Modal: see [the comparison](/en/docs/compar
 
 <div class="demo"><img src="/demo.svg" alt="deploy/quickstart.sh, then the Python SDK creates a microVM, runs print(6*7) to get 42, and forks it into four copies" width="801" height="518" loading="lazy"></div>
 
-Recorded on an 8-core VM. The 8-minute quickstart is cut; everything after it runs in real time. 0.76 s is the whole API call (placement, boot, agent ready); the 0.1 s in the table below is the VM boot alone. The steps are in the [quickstart](/en/docs/quickstart).
+Recorded on a bare-metal server, sandbox state on a local NVMe disk with XFS. The 6-minute quickstart is cut; everything after it runs in real time. 0.16 s is the whole API call (placement, boot, agent ready); the 0.1 s in the table below is the VM boot alone. The steps are in the [quickstart](/en/docs/quickstart).
 
 ## Measured
 

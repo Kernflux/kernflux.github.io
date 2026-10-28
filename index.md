@@ -50,7 +50,7 @@ OpenDsec 是开源的 sandbox 基础设施：在你自己的 Linux 机器上，�
 
 <div class="demo"><img src="/demo.svg" alt="运行 deploy/quickstart.sh 之后，用 Python SDK 创建一个 microVM，执行 print(6*7) 得到 42，再 fork 出 4 个副本" width="801" height="518" loading="lazy"></div>
 
-在一台 8 核虚拟机上录制，quickstart 的 8 分钟剪掉了，其余部分按实际速度播放。0.76 秒是整个 API 调用的时间（调度、启动、agent 就绪），下面表里的 0.1 秒只算 VM 启动本身。步骤见[快速开始](/docs/quickstart)。
+在一台裸金属服务器上录制，sandbox 状态目录在本地 NVMe 的 XFS 上。quickstart 的 6 分钟剪掉了，其余部分按实际速度播放。0.16 秒是整个 API 调用的时间（调度、启动、agent 就绪），下面表里的 0.1 秒只算 VM 启动本身。步骤见[快速开始](/docs/quickstart)。
 
 ## 实测数据
 

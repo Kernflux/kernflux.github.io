@@ -1,11 +1,11 @@
 ---
-title: 解读 DeepSeek DSec 论文：大规模智能体训练的沙箱（sandbox）基础设施
+title: 照着 DeepSeek DSec 论文实现时要自己补的部分：论文解读和对照
 date: 2026-10-25
 author: Kernflux
 description: "照着 DeepSeek DSec 论文实现一遍后，论文没写的部分：k 和负载怎么定，域名怎么变成 IP，离开 3FS 后镜像怎么放。附论文方案、OpenDsec 方案和选择原因的对照表。"
 ---
 
-# 解读 DeepSeek DSec 论文：大规模智能体训练的沙箱（sandbox）基础设施
+# 照着 DeepSeek DSec 论文实现时要自己补的部分：论文解读和对照
 
 DeepSeek 2026 年 9 月发布的 DSec 论文（[arXiv:2609.22978](https://arxiv.org/abs/2609.22978)）把他们生产中的 sandbox 平台讲得很清楚：架构、规模数字和实测结果都有。论文讲完了，但真要照着实现，还差几样东西。我们写 [OpenDsec](https://github.com/Kernflux/opendsec) 时碰到的主要是这三类：
 
@@ -172,6 +172,7 @@ reward hacking 指智能体不解决问题，而是钻评测的空子拿奖励�
 
 ## 延伸阅读
 
+- [DeepSeek DSec 实现笔记](/blog/posts/dsec-implementation-notes)：完整的对照表，以及 `pack_diff`、aether/chronus、任务级暂停的实现
 - 论文：[arXiv:2609.22978](https://arxiv.org/abs/2609.22978)
 - [OpenDsec 核心概念](/docs/concepts)
 - [OpenDsec 与 E2B、Daytona、Modal 对比](/docs/compare)

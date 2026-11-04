@@ -1,11 +1,11 @@
 ---
-title: "DeepSeek's DSec paper: sandbox infrastructure for agentic RL at scale"
+title: "DeepSeek's DSec paper: what you still have to decide when you implement it"
 date: 2026-10-25
 author: Kernflux
 description: "What DeepSeek's DSec paper leaves out once you implement it: choosing k and load, turning domains into IPs, placing images without 3FS. With a table of the paper's choice, OpenDsec's and why."
 ---
 
-# DeepSeek's DSec paper: sandbox infrastructure for agentic RL at scale
+# DeepSeek's DSec paper: what you still have to decide when you implement it
 
 DeepSeek's DSec paper ([arXiv:2609.22978](https://arxiv.org/abs/2609.22978), September 2026) describes their production sandbox platform clearly: the architecture, the scale and the measurements are all there. The paper is complete, but implementing it takes a few things it does not give you. Writing [OpenDsec](https://github.com/Kernflux/opendsec), we mostly hit three kinds:
 
@@ -172,6 +172,7 @@ Yes. Overcommit, on-demand loading and escape defences apply to any service that
 
 ## Further reading
 
+- [DeepSeek DSec implementation notes](/en/blog/posts/dsec-implementation-notes): the full comparison table, plus `pack_diff`, aether/chronus and task-level pause
 - The paper: [arXiv:2609.22978](https://arxiv.org/abs/2609.22978)
 - [OpenDsec concepts](/en/docs/concepts)
 - [OpenDsec compared with E2B, Daytona and Modal](/en/docs/compare)

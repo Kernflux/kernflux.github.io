@@ -39,7 +39,7 @@ The install writes `/root/opendsec-ops/demo.env`, which already holds the three 
 python3 -m venv .venv && .venv/bin/pip install e2b
 ```
 
-`E2B_API_KEY` is an OpenDsec token. From here the code is exactly what you would write for E2B's cloud (run it with `.venv/bin/python`):
+`E2B_API_KEY` is the OpenDsec token written as `e2b_` followed by its hex, the only form some versions of E2B's Python SDK (2.25 to 2.45) accept; the gateway decodes it back into the token. From here the code is exactly what you would write for E2B's cloud (run it with `.venv/bin/python`):
 
 ```python
 from e2b import Sandbox
@@ -56,7 +56,7 @@ To call it from another machine, point the three variables at this machine:
 ```sh
 export E2B_API_URL=http://<gateway>:7400
 export E2B_SANDBOX_URL=http://<gateway>:7400
-export E2B_API_KEY=<your OpenDsec token>
+export E2B_API_KEY=e2b_$(printf %s "$OPENDSEC_TOKEN" | od -An -tx1 -v | tr -d ' \n')   # your OpenDsec token
 ```
 
 The JS/TS SDK works too (Node.js 22.19 or newer).

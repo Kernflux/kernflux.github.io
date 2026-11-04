@@ -39,7 +39,7 @@ deploy/quickstart.sh
 python3 -m venv .venv && .venv/bin/pip install e2b
 ```
 
-`E2B_API_KEY` 就是 OpenDsec 的 token。之后的代码和用 E2B 云服务时完全一样（用 `.venv/bin/python` 运行）：
+`E2B_API_KEY` 是写成 `e2b_` 加十六进制的 OpenDsec token，E2B Python SDK 2.25 到 2.45 只接受这种格式，网关会把它解码回 token。之后的代码和用 E2B 云服务时完全一样（用 `.venv/bin/python` 运行）：
 
 ```python
 from e2b import Sandbox
@@ -56,7 +56,7 @@ sbx.kill()
 ```sh
 export E2B_API_URL=http://<网关>:7400
 export E2B_SANDBOX_URL=http://<网关>:7400
-export E2B_API_KEY=<你的 OpenDsec token>
+export E2B_API_KEY=e2b_$(printf %s "$OPENDSEC_TOKEN" | od -An -tx1 -v | tr -d ' \n')   # 你的 OpenDsec token
 ```
 
 JS/TS SDK 同样可用（需要 Node.js 22.19 以上）。

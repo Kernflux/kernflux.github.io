@@ -2,14 +2,44 @@
 title: "DeepSeek's DSec paper: sandbox infrastructure for agentic RL at scale"
 date: 2026-10-25
 author: Kernflux
-description: "DeepSeek's DSec paper explained: how its agentic RL sandbox platform schedules, overcommits, loads images on demand and blocks cheating, and how OpenDsec differs."
+description: "What DeepSeek's DSec paper leaves out once you implement it: choosing k and load, turning domains into IPs, placing images without 3FS. With a table of the paper's choice, OpenDsec's and why."
 ---
 
 # DeepSeek's DSec paper: sandbox infrastructure for agentic RL at scale
 
-Training AI agents that write code and use tools takes a sandbox for every reinforcement learning (RL) rollout: an isolated environment that can install dependencies, run commands and read and write files. DeepSeek's paper *DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale* ([arXiv:2609.22978](https://arxiv.org/abs/2609.22978), September 2026) describes the sandbox platform they run in production.
+DeepSeek's DSec paper ([arXiv:2609.22978](https://arxiv.org/abs/2609.22978), September 2026) describes their production sandbox platform clearly: the architecture, the scale and the measurements are all there. The paper is complete, but implementing it takes a few things it does not give you. Writing [OpenDsec](https://github.com/Kernflux/opendsec), we mostly hit three kinds:
 
-The short version. Five things in the paper are worth copying:
+- **Values it does not give.** Placement uses power-of-k, but the paper does not say what k is or how a node's load is computed. Above 80% utilization "a portion" of requests goes to the cloud, and the portion is not given either.
+- **A step it skips.** Network permissions are organized by domain or mirror service, while the eBPF programs filter by IP, port and protocol. The paper does not say how a domain becomes an IP.
+- **A dependency you cannot take with you.** On-demand loading is designed around the read and write behaviour of 3FS, DeepSeek's own distributed file system. On NFS, the design has to be worked out again.
+
+This post gives our choices and reasons first, then the paper itself. OpenDsec is our independent open-source implementation of the paper and is not affiliated with DeepSeek.
+
+## The paper's choice, OpenDsec's, and why
+
+| | DSec paper | OpenDsec | Why, and what it costs |
+|---|---|---|---|
+| Network policy (§6.5) | One eBPF program per sandbox, filtering by IP, port and protocol | One nftables table per node, one chain per sandbox, and a built-in DNS proxy: an allowed domain's IPs enter the allow set before the answer reaches the sandbox | Permissions are in domains, so something has to turn a domain into IPs, and a DNS proxy does that at resolution time. Sets and verdict maps come with nftables, so there are no BPF programs to write. Cost: other sites on the same CDN IP are reachable too, and it is IPv4 only |
+| Image storage (§5.3) | 3FS. The paper's reason: training already runs on it, so no separate image distribution layer is needed | Any shared file system: NFS, CephFS, JuiceFS | The same reason, use the storage you have: we cannot ask users to deploy 3FS first. Cost: NFS does not carry `trusted.*` xattrs, so overlay's opaque directory markers get lost, and import and `pack_diff` have to expand opaque directories into whiteouts |
+| Container images (§5.3) | OCI converted offline to EROFS, metadata local, data read on demand from 3FS | Layers are directories. Each is copied whole to the node on first use, and containers stack the local copies | Read-only layers used to sit directly on NFS, and in a failure drill an image store outage stalled running containers. Cost: this is not on-demand loading, and first use copies whole layers |
+| microVM image disks (§5.3) | EROFS for read-only layers, OverlayBD with ublk for on-demand writable disks | With `erofs_images` on, an uncompressed EROFS is built once in the image store and each node copies all of it locally; it can be mounted with virtio-pmem and DAX | Measured on the 1.2 GB `python:3.12`: flattening to ext4 on each machine takes 23.1 s, copying the built EROFS takes 0.97 s. Uncompressed because compressed EROFS does not support DAX. Cost: at tens of GB, or with tight local disks, this has to be redone |
+
+The table records OpenDsec's trade-offs. It does not say the paper's choices are worse. On-demand loading solves a problem we have not solved: OpenDsec still copies an image to the node the first time it is used.
+
+For the values the paper does not give, our current defaults are below, all configurable:
+
+- **k:** 2.
+- **Node load:** the largest of the CPU allocation ratio, memory allocation ratio and sandbox count ratio, or the actual CPU or memory use if that is higher.
+- **In-flight records:** written when a node is picked. We first wrote them after a successful create, and 256 concurrent requests saw the same load and piled onto the same few nodes.
+- **Share sent to the cloud:** above a utilization `u` of 0.8, eligible requests go with probability `min(1, (u-0.8)/0.2)`.
+
+[SPEC.md](https://github.com/Kernflux/opendsec/blob/main/docs/SPEC.md) marks whether each design point comes from the paper or from us.
+
+## What the paper covers
+
+Training AI agents that write code and use tools takes a sandbox for every reinforcement learning (RL) rollout: an isolated environment that can install dependencies, run commands and read and write files. The paper, *DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale*, describes such a platform.
+
+Five things in it are worth copying:
 
 1. **Sandboxes use little of what they ask for.** About 90% of sandboxes use at most 5% of the CPU they request on average, so you can overcommit heavily, as long as CPU core scheduling protects the latency-sensitive work.
 2. **Don't pull whole images.** A sandbox reads only 4–13% of its image, so on-demand loading is far faster than a full pull.
@@ -17,7 +47,7 @@ The short version. Five things in the paper are worth copying:
 4. **RL needs task-level operations.** When training is preempted or finishes, pause, resume or stop all of a task's sandboxes at once.
 5. **Agents cheat.** The paper records real reward hacking and escape attempts, and the sandbox has to defend against them.
 
-The details follow. Our open-source project [OpenDsec](https://github.com/Kernflux/opendsec) implements this paper; the end of this post says where it chose differently. OpenDsec is not affiliated with DeepSeek.
+The details follow.
 
 ## Scale
 
@@ -96,14 +126,12 @@ Above 80% utilization of the on-premises cluster, DSec sends part of the contain
 
 ## OpenDsec: an open-source implementation, with different choices
 
-[OpenDsec](/en/) implements the paper's architecture (IAM, placement, state collection, nodes, SDK and image store) and runs in production on two 384-thread bare-metal nodes. We chose differently in a few places:
+[OpenDsec](/en/) implements the paper's architecture (IAM, placement, state collection, nodes, SDK and image store) and runs in production on two 384-thread bare-metal nodes. Beyond [the table at the top](#the-paper-s-choice-opendsec-s-and-why), it also differs here:
 
 | | DSec paper | OpenDsec |
 |---|---|---|
 | Main backend | Containers; microVMs where stronger isolation is needed | Firecracker microVMs: no shared host kernel, and memory snapshots. Containers for GPUs and machines without KVM |
 | Fork and pause | Task-level pause and resume | The same, plus forking a running microVM with its memory (`fork(count=N)`), for tree search |
-| Network policy | eBPF | nftables and a built-in DNS proxy, same semantics: deny by default, allow by domain, address and port, changeable at run time |
-| Image storage | 3FS | Any shared file system: NFS, CephFS, JuiceFS |
 | Compatibility | Its own SDK | Its own SDK, plus an E2B-compatible gateway |
 
 Some measurements made against the paper (the project's bare-metal test machines, 2 × AMD EPYC 9Y24):
@@ -114,13 +142,13 @@ Some measurements made against the paper (the project's bare-metal test machines
 
 OpenDsec also has a fleet service for batched rolling upgrades and config changes, with running sandboxes untouched.
 
-Not done yet: no on-demand versus full-pull comparison, and GPUs are untested on real hardware.
+Not done yet: by default images are copied to a node on first use rather than read on demand, so there is no on-demand versus full-pull comparison; GPUs are untested on real hardware.
 
 ## FAQ
 
 ### Is DSec open source?
 
-The paper describes DeepSeek's internal system and comes with no code. OpenDsec is not DeepSeek's code but our independent open-source implementation of the paper (server AGPL-3.0, SDKs Apache-2.0) and is not affiliated with DeepSeek.
+The paper describes DeepSeek's internal system. What it says has been open sourced is the storage components (OverlayBD and ublk, in [AgentENV](https://github.com/kvcache-ai/AgentENV/tree/main/storage/overlaybd)). OpenDsec is not DeepSeek's code but our independent open-source implementation of the paper (server AGPL-3.0, SDKs Apache-2.0) and is not affiliated with DeepSeek.
 
 ### Does DSec use containers or virtual machines?
 

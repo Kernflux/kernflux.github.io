@@ -2,14 +2,44 @@
 title: 解读 DeepSeek DSec 论文：大规模智能体训练的沙箱（sandbox）基础设施
 date: 2026-10-25
 author: Kernflux
-description: "DeepSeek DSec 论文解读：支撑智能体强化学习的沙箱（sandbox）平台如何调度、超卖、按需加载镜像和防作弊，以及开源实现 OpenDsec 的不同选择。"
+description: "照着 DeepSeek DSec 论文实现一遍后，论文没写的部分：k 和负载怎么定，域名怎么变成 IP，离开 3FS 后镜像怎么放。附论文方案、OpenDsec 方案和选择原因的对照表。"
 ---
 
 # 解读 DeepSeek DSec 论文：大规模智能体训练的沙箱（sandbox）基础设施
 
-训练会写代码、会用工具的 AI 智能体，强化学习（RL）的每一次 rollout 都要一个独立的沙箱（sandbox）：一个能装依赖、跑命令、读写文件的隔离环境。DeepSeek 2026 年 9 月发布的论文 *DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale*（[arXiv:2609.22978](https://arxiv.org/abs/2609.22978)）介绍了他们在生产中使用的 sandbox 平台。
+DeepSeek 2026 年 9 月发布的 DSec 论文（[arXiv:2609.22978](https://arxiv.org/abs/2609.22978)）把他们生产中的 sandbox 平台讲得很清楚：架构、规模数字和实测结果都有。论文讲完了，但真要照着实现，还差几样东西。我们写 [OpenDsec](https://github.com/Kernflux/opendsec) 时碰到的主要是这三类：
 
-先说结论。这篇论文最值得借鉴的是五点：
+- **参数没给**：调度用 power-of-k，但 k 取多少、节点负载怎么算，论文都没写。利用率超过 80% 时把“一部分”请求放到云上，比例也没写。
+- **中间一步没讲**：网络权限按域名或镜像服务来组织，eBPF 程序却按 IP、端口和协议过滤。域名怎么变成 IP，论文没说。
+- **依赖带不走**：按需加载是按 3FS 的读写特性设计的，而 3FS 是 DeepSeek 自己的分布式文件系统。换成 NFS，这套设计要重新算账。
+
+这篇文章先写我们的选择和原因，再介绍论文本身。OpenDsec 是我们按论文独立实现的开源项目，与 DeepSeek 没有关联。
+
+## 论文方案、OpenDsec 方案和选择原因
+
+| | DSec 论文 | OpenDsec | 为什么这样选，代价是什么 |
+|---|---|---|---|
+| 网络策略（§6.5） | 每个 sandbox 一个 eBPF 程序，按 IP、端口和协议过滤 | 每个节点一张 nftables 表，每个 sandbox 一条链，再加内置 DNS 代理：允许的域名解析后，IP 先进放行集合，应答才返回给 sandbox | 权限的单位是域名，总要有一步把域名变成 IP，DNS 代理正好在解析时做这件事。集合和 verdict map 是 nftables 现成的，不用写 BPF 程序。代价：共用同一 CDN IP 的其他站点也能访问；只支持 IPv4 |
+| 镜像存储（§5.3） | 3FS。论文的理由是训练已经在用它，不必再部署一层镜像分发 | 任何共享文件系统：NFS、CephFS、JuiceFS | 理由相同，都是用现成的存储：不能要求用户先部署 3FS。代价：NFS 不传 `trusted.*` xattr，overlay 的不透明目录标记会丢，所以导入和 `pack_diff` 时要把不透明目录展开成删除标记 |
+| 容器镜像（§5.3） | OCI 离线转成 EROFS，元数据放本地，数据留在 3FS 上按需读 | 层是目录，每层第一次使用时整层复制到节点本地，容器叠本地副本 | 早期只读层直接挂在 NFS 上，故障演练时镜像库一中断，运行中的容器就卡住。代价：不是按需加载，第一次要复制整层 |
+| microVM 镜像盘（§5.3） | 只读层用 EROFS，可写盘用 OverlayBD 加 ublk 按需读 | 开启 `erofs_images` 后，镜像在镜像库里只做一次不压缩的 EROFS，各节点整个复制到本地；可用 virtio-pmem 加 DAX 挂载 | 实测 1.2 GB 的 `python:3.12`：每台机器展平成 ext4 要 23.1 秒，复制做好的 EROFS 要 0.97 秒。不压缩是因为压缩的 EROFS 不支持 DAX。代价：镜像到几十 GB 或本地盘紧张时，这个做法要重做 |
+
+这张表说的是 OpenDsec 的取舍，不是说论文的方案不好。论文的按需加载解决的是我们还没有解决的问题：OpenDsec 第一次用到一个镜像时，仍然要把它复制到节点上。
+
+论文没给的参数，我们目前的默认值如下，都可以配置：
+
+- **k**：2。
+- **节点负载**：取 CPU 分配比、内存分配比、sandbox 数量比中最大的一个，再和实际的 CPU、内存用量比较取大。
+- **在途记录**：选中节点时就记下。我们最初在创建成功后才记，256 个并发请求看到同一份负载，全挤到同几个节点上。
+- **上云比例**：利用率 `u` 超过 0.8 后，符合条件的请求以 `min(1, (u-0.8)/0.2)` 的概率上云。
+
+每个设计点来自论文还是我们自己的决定，都标在 [SPEC.md](https://github.com/Kernflux/opendsec/blob/main/docs/SPEC.md) 里。
+
+## 论文讲了什么
+
+训练会写代码、会用工具的 AI 智能体，强化学习（RL）的每一次 rollout 都要一个独立的沙箱（sandbox）：一个能装依赖、跑命令、读写文件的隔离环境。论文 *DeepSeek Elastic Compute (DSec): A Sandbox Infrastructure for Effective Agentic Training at Scale* 介绍的就是这样一个平台。
+
+这篇论文最值得借鉴的是五点：
 
 1. **sandbox 申请的资源大多用不上**：约 90% 的 sandbox 平均只用到申请 CPU 的 5% 以内，所以可以大幅超卖，但要用 CPU 核心调度保护对延迟敏感的任务。
 2. **镜像不要整个拉取**：一个 sandbox 实际只会读到镜像的 4%–13%，按需加载比全量拉取快得多。
@@ -17,7 +47,7 @@ description: "DeepSeek DSec 论文解读：支撑智能体强化学习的沙箱�
 4. **RL 需要任务级操作**：训练被抢占或结束时，整批暂停、恢复或结束一个任务的所有 sandbox。
 5. **要防智能体作弊**：论文记录了真实的 reward hacking 和越权事件，sandbox 需要专门防护。
 
-下面逐项展开。我们的开源项目 [OpenDsec](https://github.com/Kernflux/opendsec) 就是照着这篇论文实现的，文末说明它在哪些地方做了不同的选择。OpenDsec 与 DeepSeek 没有关联。
+下面逐项展开。
 
 ## 规模
 
@@ -96,14 +126,12 @@ DSec 的防护包括 AppArmor 限制，以及用 eBPF 实现的网络策略：�
 
 ## OpenDsec：开源的实现，以及不同的选择
 
-[OpenDsec](/) 按论文的架构实现了 IAM、调度、状态收集、节点、SDK 和镜像库，并在两台 384 线程的裸金属节点上做了生产验证。下面几处我们做了不同的选择：
+[OpenDsec](/) 按论文的架构实现了 IAM、调度、状态收集、节点、SDK 和镜像库，并在两台 384 线程的裸金属节点上做了生产验证。除了[开头的对照表](#论文方案、opendsec-方案和选择原因)，还有几处不同：
 
 | | DSec 论文 | OpenDsec |
 |---|---|---|
 | 主力后端 | 容器；microVM 用于需要更强隔离的场景 | Firecracker microVM：不共享宿主内核，能做内存快照。容器留给 GPU 和没有 KVM 的机器 |
 | fork 和暂停 | 任务级暂停和恢复 | 同样支持，另外可以连同内存 fork 运行中的 microVM（`fork(count=N)`），适合树搜索 |
-| 网络策略 | eBPF | nftables 加内置 DNS 代理，语义相同：默认拒绝，按域名、地址、端口放行，运行中可改 |
-| 镜像存储 | 3FS | 任何共享文件系统：NFS、CephFS、JuiceFS |
 | 兼容性 | 自己的 SDK | 自己的 SDK，加上 E2B 兼容网关 |
 
 几个对照论文做的实测（项目的裸金属测试机，2 × AMD EPYC 9Y24）：
@@ -114,13 +142,13 @@ DSec 的防护包括 AppArmor 限制，以及用 eBPF 实现的网络策略：�
 
 此外，OpenDsec 自带 fleet 服务，分批滚动升级和修改配置，运行中的 sandbox 不受影响。
 
-还没做的：没有做按需加载与全量拉取的对比实验，GPU 还没有在真实硬件上测过。
+还没做的：默认配置下镜像是第一次使用时复制到节点，不是按需读，所以也没有做按需加载与全量拉取的对比实验；GPU 还没有在真实硬件上测过。
 
 ## 常见问题
 
 ### DSec 是开源的吗？
 
-论文介绍的是 DeepSeek 内部的系统，没有附带代码。OpenDsec 不是 DeepSeek 的代码，而是我们按论文独立实现的开源项目（服务端 AGPL-3.0，SDK Apache-2.0），与 DeepSeek 没有关联。
+论文介绍的是 DeepSeek 内部的系统。论文提到已开源的是存储组件（OverlayBD 和 ublk，见 [AgentENV](https://github.com/kvcache-ai/AgentENV/tree/main/storage/overlaybd)）。OpenDsec 不是 DeepSeek 的代码，而是我们按论文独立实现的开源项目（服务端 AGPL-3.0，SDK Apache-2.0），与 DeepSeek 没有关联。
 
 ### DSec 用的是容器还是虚拟机？
 

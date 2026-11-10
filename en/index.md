@@ -21,10 +21,10 @@ features:
     details: A Firecracker VM cold-starts in about 0.1 s, is created from a memory snapshot in about 55 ms, and resumes from a pause in about 50 ms.
   - title: Fork and memory snapshots
     details: fork(count=N) clones a running VM with its memory, pausing the source for about 10 ms. Copies on one node share pages; other nodes pull from the source node.
-  - title: Pause a whole task
-    details: When training is preempted, pause every sandbox of a task and release its memory. The next call to a paused sandbox resumes it.
+  - title: Batch rollouts
+    details: Run a batch of inputs, each in a fresh sandbox or all from one running microVM with its memory. Pause the whole batch to free memory; results are saved as each input ends, and a rerun retries only the failures.
   - title: E2B compatible
-    details: Code written for the E2B SDK runs after changing three environment variables, including commands, files, PTY, ports, snapshots and the code interpreter.
+    details: Code written for the E2B SDK runs after changing three environment variables, including commands, files, PTY, ports, snapshots, template builds and the code interpreter.
   - title: Layered images
     details: Import from any OCI registry, compose layers without copying, and save an environment with pack_diff. The store lives on NFS, CephFS or JuiceFS.
   - title: Default-deny network
@@ -32,7 +32,7 @@ features:
   - title: Isolation
     details: A jailer with a uid per VM, core scheduling against SMT side channels, seccomp, read-only agents and per-session users.
   - title: Projects and quotas
-    details: Nested projects, hierarchical quotas and bounded delegation. Raft-replicated IAM, mTLS between components, short-lived revocable tokens and audit logs.
+    details: Nested projects, hierarchical quotas and bounded delegation, with per-project limits on image count and size. Raft-replicated IAM, mTLS between components, short-lived revocable tokens and audit logs.
   - title: Operations
     details: Staged fleet rollouts with automatic rollback, an offline bundle, Prometheus metrics and alerts. Upgrading any component leaves running sandboxes alone.
 ---

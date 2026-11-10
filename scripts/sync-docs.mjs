@@ -15,6 +15,7 @@ const repo = 'https://github.com/Kernflux/opendsec'
 
 // site page -> [Chinese source, English source] in the repository
 const docs = {
+  'getting-started': ['docs/GETTING_STARTED.md', 'docs/en/GETTING_STARTED.md'],
   'concepts': ['docs/CONCEPTS.md', 'docs/en/CONCEPTS.md'],
   'install': ['docs/INSTALL.md', 'docs/en/INSTALL.md'],
   'cluster': ['docs/CLUSTER.md', 'docs/en/CLUSTER.md'],

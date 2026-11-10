@@ -12,7 +12,9 @@ description: "OpenDsec 文档：安装和部署、Python SDK 与命令行、镜�
 | 从零部署生产集群 | [多机集群部署](/docs/cluster) |
 | 在不能上网的机房安装 | [部署方式：离线环境](/docs/deploy#离线环境) |
 | 了解 sandbox、后端、超时、会话这些概念 | [核心概念](/docs/concepts) |
+| 用别人已经搭好的集群，5 分钟跑起第一段代码 | [使用已有集群](/docs/getting-started) |
 | 从程序里调用 OpenDsec | [接入指南](/docs/user-guide)、[Python SDK 参考](/docs/python-sdk) |
+| 批量跑一批输入（强化学习 rollout） | [Python SDK 参考：Rollout](/docs/python-sdk) |
 | 在命令行里操作 | [命令行参考](/docs/cli) |
 | 导入镜像、制作环境、用快照预热 | [镜像与快照](/docs/images) |
 | 控制 sandbox 能访问哪些网络 | [网络策略](/docs/network) |

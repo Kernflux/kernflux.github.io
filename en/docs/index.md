@@ -12,7 +12,9 @@ description: "OpenDsec documentation: installation and deployment, the Python SD
 | Deploy a production cluster from scratch | [Cluster deployment](/en/docs/cluster) |
 | Install in a data center without internet access | [Deployment options: air-gapped](/en/docs/deploy#air-gapped) |
 | Understand sandboxes, backends, timeouts, sessions | [Concepts](/en/docs/concepts) |
+| Use a cluster someone else runs, first code in 5 minutes | [Use an existing cluster](/en/docs/getting-started) |
 | Call OpenDsec from a program | [Caller guide](/en/docs/user-guide), [Python SDK reference](/en/docs/python-sdk) |
+| Run a batch of inputs (RL rollouts) | [Python SDK reference: rollouts](/en/docs/python-sdk) |
 | Work from the command line | [CLI reference](/en/docs/cli) |
 | Import images, build environments, warm up with snapshots | [Images and snapshots](/en/docs/images) |
 | Control what sandboxes can reach | [Network policy](/en/docs/network) |

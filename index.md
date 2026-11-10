@@ -21,10 +21,10 @@ features:
     details: Firecracker 冷启动约 0.1 s，从内存快照创建约 55 ms，暂停后恢复约 50 ms。
   - title: fork 与内存快照
     details: fork(count=N) 连同内存复制正在运行的 VM，源 VM 只停顿约 10 ms。同节点副本共享内存页，跨节点直接从源节点拉取。
-  - title: 按任务暂停
-    details: 训练被抢占时整批暂停并释放内存；之后对暂停的 sandbox 发请求会自动恢复。
+  - title: 批量 rollout
+    details: 一批输入各在一个新 sandbox 里跑，或者全部从一个运行中的 microVM 连同内存开始。整批可以暂停并释放内存；结果逐条落盘，只重跑失败的。
   - title: 兼容 E2B
-    details: 按 E2B SDK 写的程序换三个环境变量就能运行，包括命令、文件、PTY、端口、快照和 code interpreter。
+    details: 按 E2B SDK 写的程序换三个环境变量就能运行，包括命令、文件、PTY、端口、快照、模板构建和 code interpreter。
   - title: 分层镜像
     details: 从任意 OCI 仓库导入，组合镜像不复制数据，pack_diff 把环境存成新镜像。镜像库放在 NFS、CephFS 或 JuiceFS 上。
   - title: 默认拒绝的网络
@@ -32,7 +32,7 @@ features:
   - title: 隔离
     details: 每个 VM 独立 uid 的 jailer、防 SMT 侧信道的核心调度、seccomp、只读代理、按会话的用户。
   - title: 项目与配额
-    details: 多级项目、层级配额、有界委托；IAM 用 Raft 多副本，组件之间 mTLS，短期可吊销的 token，审计日志。
+    details: 多级项目、层级配额、有界委托，可以按项目限制镜像的数量和容量；IAM 用 Raft 多副本，组件之间 mTLS，短期可吊销的 token，审计日志。
   - title: 运维
     details: fleet 分批滚动升级、失败自动回退；离线安装包；Prometheus 指标和告警。升级任何组件都不影响运行中的 sandbox。
 ---

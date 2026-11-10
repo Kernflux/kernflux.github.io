@@ -82,6 +82,7 @@ export default defineConfig({
               items: [
                 { text: '文档首页', link: '/docs/' },
                 { text: '快速开始', link: '/docs/quickstart' },
+                { text: '使用已有集群', link: '/docs/getting-started' },
                 { text: '核心概念', link: '/docs/concepts' },
                 { text: '常见问题', link: '/docs/faq' },
                 { text: '与 E2B、Daytona、Modal 对比', link: '/docs/compare' },
@@ -164,6 +165,7 @@ export default defineConfig({
               items: [
                 { text: 'Overview', link: '/en/docs/' },
                 { text: 'Get started', link: '/en/docs/quickstart' },
+                { text: 'Use an existing cluster', link: '/en/docs/getting-started' },
                 { text: 'Concepts', link: '/en/docs/concepts' },
                 { text: 'FAQ', link: '/en/docs/faq' },
                 { text: 'vs E2B, Daytona, Modal', link: '/en/docs/compare' },
